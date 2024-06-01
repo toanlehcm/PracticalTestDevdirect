@@ -5,8 +5,13 @@ import MainContent from "./containers/MainContent";
 export default function Home() {
   return (
     <div className={styles.container}>
-      <LeftMenu />
-      <MainContent />
+      <div className={styles.sidebar}>
+        <LeftMenu />
+      </div>
+
+      <div className={styles.rightContent}>
+        <MainContent />
+      </div>
     </div>
   );
 }
