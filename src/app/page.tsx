@@ -10,6 +10,8 @@ import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-ki
 import Announcements from "@/components/announcements";
 import Canvas, { Field } from "@/components/canvas";
 import Sidebar, { SidebarField } from "@/components/sidebar";
+import BottomContent from "./containers/BottomContent";
+import { renderersEdit } from "@/components/field";
 
 function getData(prop: any) {
   return prop?.data?.current ?? {};
@@ -163,6 +165,12 @@ export default function Home() {
   };
 
   const { fields } = data;
+  const [arrayFieldEdit, setArrayFieldEdit] = useState<any[]>([]);
+
+  const editField = (type: any) => {
+    // console.log(`Field ${type} updated with value: ${type}`);
+    setArrayFieldEdit([...arrayFieldEdit, type]);
+  };
 
   return (
     <div className="app">
@@ -171,13 +179,19 @@ export default function Home() {
           <Announcements />
           <Sidebar fieldsRegKey={sidebarFieldsRegenKey} />
           <SortableContext strategy={verticalListSortingStrategy} items={fields.map((f) => f.id)}>
-            <Canvas fields={fields} />
+            <Canvas fields={fields} editField={editField} />
           </SortableContext>
           <DragOverlay dropAnimation={false}>
             {activeSidebarField ? <SidebarField overlay field={activeSidebarField} /> : null}
             {activeField ? <Field overlay field={activeField} /> : null}
           </DragOverlay>
         </DndContext>
+      </div>
+      {/* <BottomContent /> */}
+      <div>
+        {arrayFieldEdit.map((type, index) => {
+          return renderersEdit(type);
+        })}
       </div>
     </div>
     // -----

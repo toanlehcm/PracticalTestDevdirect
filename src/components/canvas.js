@@ -2,23 +2,25 @@ import { useDroppable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 
-import { renderers } from "./field";
+import { renderers, renderersView } from "./field";
 
-function getRenderer(type) {
-  if (type === "spacer") {
-    return () => {
-      return <div className="spacer">spacer</div>;
-    };
-  }
+function getRenderer(type, editField) {
+  // console.log('type----', { type });
+  // console.log('editField', editField);
+  // if (type === "spacer") {
+  //   return () => {
+  //     return <div className="spacer">spacer</div>;
+  //   };
+  // }
 
-  return renderers[type] || (() => <div>No renderer found for {type}</div>);
+  return renderersView(type, editField);
+  // return <renderersView type={type} editField={editField} /> || (() => <div>No renderer found for {type}</div>);
 }
 
 export function Field(props) {
-  const { field, overlay, ...rest } = props;
+  const { field, overlay, editField, ...rest } = props;
   const { type } = field;
-
-  const Component = getRenderer(type);
+  const Component = getRenderer(type, editField);
 
   let className = "canvas-field";
   if (overlay) {
@@ -27,14 +29,13 @@ export function Field(props) {
 
   return (
     <div className={className}>
-      <Component {...rest} />
+      {getRenderer(type, editField)}
     </div>
   );
 }
 
 function SortableField(props) {
-  const { id, index, field } = props;
-
+  const { id, index, field, editField } = props;
   const {
     attributes,
     listeners,
@@ -55,15 +56,22 @@ function SortableField(props) {
     transition
   };
 
+  const handleEdit = () => {
+    const newValue = prompt('Enter new value:');
+    editField(id, newValue);
+  };
+
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <Field field={field} />
+    <div ref={setNodeRef} style={style}
+    // {...attributes} {...listeners}
+    >
+      <Field field={field} editField={editField} />
     </div>
   );
 }
 
 export default function Canvas(props) {
-  const { fields } = props;
+  const { fields, editField } = props;
 
   const {
     attributes,
@@ -88,13 +96,13 @@ export default function Canvas(props) {
     <div
       ref={setNodeRef}
       className="canvas"
-      style={style}
-      {...attributes}
-      {...listeners}
+    // style={style}
+    // {...attributes}
+    // {...listeners}
     >
       <div className="canvas-fields">
         {fields?.map((f, i) => (
-          <SortableField key={f.id} id={f.id} field={f} index={i} />
+          <SortableField key={f.id} id={f.id} field={f} index={i} editField={editField} />
         ))}
       </div>
     </div>

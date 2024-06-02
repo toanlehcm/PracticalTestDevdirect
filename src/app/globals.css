@@ -90,7 +90,6 @@ body {
 
 .canvas-field > * {
   width: 100%;
-  pointer-events: none;
 }
 
 .spacer {
