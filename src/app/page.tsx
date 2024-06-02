@@ -31,7 +31,9 @@ export default function Home() {
   const currentDragFieldRef = useRef();
   const [activeSidebarField, setActiveSidebarField] = useState(); // only for fields from the sidebar
   const [activeField, setActiveField] = useState(); // only for fields that are in the form.
-  const [valueInput, setValueInput] = useState("");
+  const [paragraphText, setParagraphText] = useState("");
+  const [buttonText, setButtonText] = useState("");
+  const [message, setMessage] = useState("");
 
   const [data, updateData] = useImmer({
     fields: [],
@@ -183,7 +185,7 @@ export default function Home() {
           <Sidebar fieldsRegKey={sidebarFieldsRegenKey} />
 
           <SortableContext strategy={verticalListSortingStrategy} items={fields.map((f) => f.id)}>
-            <Canvas fields={fields} editField={editField} valueInput={valueInput} />
+            <Canvas fields={fields} editField={editField} paragraphText={paragraphText} buttonText={buttonText} />
           </SortableContext>
 
           <DragOverlay dropAnimation={false}>
@@ -197,7 +199,7 @@ export default function Home() {
 
       <div>
         {arrayFieldEdit.map((type, index) => {
-          return renderersEdit(type, setValueInput);
+          return renderersEdit(type, setParagraphText, setButtonText, setMessage);
         })}
       </div>
     </div>

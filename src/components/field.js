@@ -11,35 +11,46 @@ export const fields = [
 ];
 
 // These define how we render the field
-export const renderersEdit = (type, setValueInput) => {
+export const renderersEdit = (type, setParagraphText, setButtonText, setMessage) => {
   switch (type) {
     case 'input':
-      return <input type="text" placeholder="This is a text input" onChange={(event) => {
-        setValueInput(event.target.value);
-      }} />
+      return (
+        <>
+          Paragraph Text
+          <input type="text" onChange={(event) => setParagraphText(event.target.value)} />
+        </>
+      )
 
 
     case 'button':
-      return <button>Button</button>
+      return (
+        <>
+          Button Text
+          <input type="text" onChange={(event) => setButtonText(event.target.value)} />
+
+          Alert message
+          <input type="text" onChange={(event) => setMessage(event.target.value)} />
+        </>
+      )
 
     default:
       break;
   }
 };
 
-export const renderersView = (type, editField, valueInput) => {
+export const renderersView = (type, editField, paragraphText, buttonText) => {
 
   switch (type) {
     case 'input':
       return <button onClick={() => {
         editField(type)
-      }}>{valueInput ? valueInput : 'paragraph'}</button>
+      }}>{paragraphText ? paragraphText : 'Paragraph text'}</button>
 
 
     case 'button':
       return <button onClick={() => {
         editField(type)
-      }} >Button</button>
+      }} >{buttonText ? buttonText : 'Button'}</button>
 
     default:
       break;
