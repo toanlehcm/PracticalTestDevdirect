@@ -11,10 +11,12 @@ export const fields = [
 ];
 
 // These define how we render the field
-export const renderersEdit = (type) => {
+export const renderersEdit = (type, setValueInput) => {
   switch (type) {
     case 'input':
-      return <input type="text" placeholder="This is a text input" />
+      return <input type="text" placeholder="This is a text input" onChange={(event) => {
+        setValueInput(event.target.value);
+      }} />
 
 
     case 'button':
@@ -25,13 +27,13 @@ export const renderersEdit = (type) => {
   }
 };
 
-export const renderersView = (type, editField) => {
+export const renderersView = (type, editField, valueInput) => {
 
   switch (type) {
     case 'input':
       return <button onClick={() => {
         editField(type)
-      }}>Input 1</button>
+      }}>{valueInput ? valueInput : 'paragraph'}</button>
 
 
     case 'button':

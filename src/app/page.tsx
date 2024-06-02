@@ -31,6 +31,8 @@ export default function Home() {
   const currentDragFieldRef = useRef();
   const [activeSidebarField, setActiveSidebarField] = useState(); // only for fields from the sidebar
   const [activeField, setActiveField] = useState(); // only for fields that are in the form.
+  const [valueInput, setValueInput] = useState("");
+
   const [data, updateData] = useImmer({
     fields: [],
   });
@@ -177,32 +179,27 @@ export default function Home() {
       <div className="content">
         <DndContext onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd} autoScroll>
           <Announcements />
+
           <Sidebar fieldsRegKey={sidebarFieldsRegenKey} />
+
           <SortableContext strategy={verticalListSortingStrategy} items={fields.map((f) => f.id)}>
-            <Canvas fields={fields} editField={editField} />
+            <Canvas fields={fields} editField={editField} valueInput={valueInput} />
           </SortableContext>
+
           <DragOverlay dropAnimation={false}>
             {activeSidebarField ? <SidebarField overlay field={activeSidebarField} /> : null}
             {activeField ? <Field overlay field={activeField} /> : null}
           </DragOverlay>
         </DndContext>
       </div>
+
       {/* <BottomContent /> */}
+
       <div>
         {arrayFieldEdit.map((type, index) => {
-          return renderersEdit(type);
+          return renderersEdit(type, setValueInput);
         })}
       </div>
     </div>
-    // -----
-    // <div className={styles.container}>
-    //   <div className={styles.sidebar}>
-    //     <LeftMenu />
-    //   </div>
-
-    //   <div className={styles.rightContent}>
-    //     <MainContent />
-    //   </div>
-    // </div>
   );
 }
