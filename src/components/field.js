@@ -44,7 +44,7 @@ export const renderersView = (type, editField, paragraphText, buttonText) => {
     case 'input':
       return <button onClick={() => {
         editField(type)
-      }}>{paragraphText ? paragraphText : 'Paragraph text'}</button>
+      }}>{paragraphText ? paragraphText : 'Paragraph'}</button>
 
 
     case 'button':

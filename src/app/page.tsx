@@ -6,12 +6,13 @@ import { useRef, useState } from "react";
 import { useImmer } from "use-immer";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
-
 import Announcements from "@/components/announcements";
 import Canvas, { Field } from "@/components/canvas";
 import Sidebar, { SidebarField } from "@/components/sidebar";
 import BottomContent from "./containers/BottomContent";
 import { renderersEdit } from "@/components/field";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Consumer from "./consumer/page";
 
 function getData(prop: any) {
   return prop?.data?.current ?? {};
@@ -177,31 +178,45 @@ export default function Home() {
   };
 
   return (
-    <div className="app">
-      <div className="content">
-        <DndContext onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd} autoScroll>
-          <Announcements />
+    <BrowserRouter>
+      <div className="app">
+        <div>
+          <button>
+            <a href="/consumer" target="_blank" rel="">
+              View
+            </a>
+          </button>
+        </div>
 
-          <Sidebar fieldsRegKey={sidebarFieldsRegenKey} />
+        <div className="content">
+          <DndContext onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd} autoScroll>
+            <Announcements />
 
-          <SortableContext strategy={verticalListSortingStrategy} items={fields.map((f) => f.id)}>
-            <Canvas fields={fields} editField={editField} paragraphText={paragraphText} buttonText={buttonText} />
-          </SortableContext>
+            <Sidebar fieldsRegKey={sidebarFieldsRegenKey} />
 
-          <DragOverlay dropAnimation={false}>
-            {activeSidebarField ? <SidebarField overlay field={activeSidebarField} /> : null}
-            {activeField ? <Field overlay field={activeField} /> : null}
-          </DragOverlay>
-        </DndContext>
+            <SortableContext strategy={verticalListSortingStrategy} items={fields.map((f) => f.id)}>
+              <Canvas fields={fields} editField={editField} paragraphText={paragraphText} buttonText={buttonText} />
+            </SortableContext>
+
+            <DragOverlay dropAnimation={false}>
+              {activeSidebarField ? <SidebarField overlay field={activeSidebarField} /> : null}
+              {activeField ? <Field overlay field={activeField} /> : null}
+            </DragOverlay>
+          </DndContext>
+        </div>
+
+        {/* <BottomContent /> */}
+
+        <div>
+          {arrayFieldEdit.map((type, index) => {
+            return renderersEdit(type, setParagraphText, setButtonText, setMessage);
+          })}
+        </div>
+
+        <Routes>
+          <Route path="/consumer" element={<Consumer />} />
+        </Routes>
       </div>
-
-      {/* <BottomContent /> */}
-
-      <div>
-        {arrayFieldEdit.map((type, index) => {
-          return renderersEdit(type, setParagraphText, setButtonText, setMessage);
-        })}
-      </div>
-    </div>
+    </BrowserRouter>
   );
 }
