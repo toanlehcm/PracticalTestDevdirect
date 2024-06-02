@@ -35,6 +35,7 @@ export default function Home() {
   const [message, setMessage] = useState("");
   const [arrayFieldEdit, setArrayFieldEdit] = useState<any[]>([]);
   const [arrayFieldsConsumer, setArrayFieldsConsumer] = useState<any[]>();
+  const [fieldEditing, setFieldEditing] = useState<any | null>();
 
   const [data, updateData] = useImmer({
     fields: [],
@@ -172,13 +173,19 @@ export default function Home() {
 
   const { fields } = data;
 
-  const editField = (type: any) => {
-    // console.log(`Field ${type} updated with value: ${type}`);
-    setArrayFieldEdit([...arrayFieldEdit, type]);
+  const editField = (field: any) => {
+    setFieldEditing(field);
+
+    // setArrayFieldEdit([...arrayFieldEdit, field]);
   };
 
   const handleSave = () => {
+    // console.log("paragraphText", paragraphText);
+    // const newArrayFieldsConsumer = [...arrayFieldsConsumer, ]
+
     localStorage.setItem("arrayFieldsConsumer", JSON.stringify(arrayFieldsConsumer));
+
+    setFieldEditing(null);
   };
 
   return (
@@ -213,9 +220,13 @@ export default function Home() {
       {/* <BottomContent /> */}
 
       <div>
-        {arrayFieldEdit.map((type, index) => {
-          return renderersEdit(type, setParagraphText, setButtonText, setMessage);
-        })}
+        {arrayFieldsConsumer &&
+          fieldEditing &&
+          arrayFieldsConsumer.map((field, index) => {
+            if (field.id == fieldEditing.id) {
+              return renderersEdit(field, setParagraphText, setButtonText, setMessage);
+            }
+          })}
       </div>
     </div>
   );

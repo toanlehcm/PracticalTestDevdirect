@@ -27,7 +27,7 @@ export function Field(props) {
 
   return (
     <div className={className}>
-      {renderersView(type, editField, paragraphText, buttonText)}
+      {renderersView(field, editField, paragraphText, buttonText)}
     </div>
   );
 }

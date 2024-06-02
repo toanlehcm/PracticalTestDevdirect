@@ -11,8 +11,8 @@ export const fields = [
 ];
 
 // These define how we render the field
-export const renderersEdit = (type, setParagraphText, setButtonText, setMessage) => {
-  switch (type) {
+export const renderersEdit = (field, setParagraphText, setButtonText, setMessage) => {
+  switch (field.type) {
     case 'input':
       return (
         <>
@@ -38,18 +38,18 @@ export const renderersEdit = (type, setParagraphText, setButtonText, setMessage)
   }
 };
 
-export const renderersView = (type, editField, paragraphText, buttonText) => {
+export const renderersView = (field, editField, paragraphText, buttonText) => {
 
-  switch (type) {
+  switch (field.type) {
     case 'input':
       return <button onClick={() => {
-        editField(type)
+        editField(field)
       }}>{paragraphText ? paragraphText : 'Paragraph'}</button>
 
 
     case 'button':
       return <button onClick={() => {
-        editField(type)
+        editField(field)
       }} >{buttonText ? buttonText : 'Button'}</button>
 
     default:
