@@ -11,8 +11,6 @@ import Canvas, { Field } from "@/components/canvas";
 import Sidebar, { SidebarField } from "@/components/sidebar";
 import BottomContent from "./containers/BottomContent";
 import { renderersEdit } from "@/components/field";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Consumer from "./consumer/page";
 
 function getData(prop: any) {
   return prop?.data?.current ?? {};
@@ -35,6 +33,8 @@ export default function Home() {
   const [paragraphText, setParagraphText] = useState("");
   const [buttonText, setButtonText] = useState("");
   const [message, setMessage] = useState("");
+  const [arrayFieldEdit, setArrayFieldEdit] = useState<any[]>([]);
+  const [arrayFieldsConsumer, setArrayFieldsConsumer] = useState<any[]>();
 
   const [data, updateData] = useImmer({
     fields: [],
@@ -162,6 +162,7 @@ export default function Home() {
         draft.fields.splice(spacerIndex, 1, nextField);
 
         draft.fields = arrayMove(draft.fields, spacerIndex, overData.index || 0);
+        setArrayFieldsConsumer(draft.fields);
       });
     }
 
@@ -170,53 +171,52 @@ export default function Home() {
   };
 
   const { fields } = data;
-  const [arrayFieldEdit, setArrayFieldEdit] = useState<any[]>([]);
 
   const editField = (type: any) => {
     // console.log(`Field ${type} updated with value: ${type}`);
     setArrayFieldEdit([...arrayFieldEdit, type]);
   };
 
+  const handleSave = () => {
+    localStorage.setItem("arrayFieldsConsumer", JSON.stringify(arrayFieldsConsumer));
+  };
+
   return (
-    <BrowserRouter>
-      <div className="app">
-        <div>
-          <button>
-            <a href="/consumer" target="_blank" rel="">
-              View
-            </a>
-          </button>
-        </div>
+    <div className="app">
+      <div>
+        <button onClick={handleSave}>Save</button>
 
-        <div className="content">
-          <DndContext onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd} autoScroll>
-            <Announcements />
-
-            <Sidebar fieldsRegKey={sidebarFieldsRegenKey} />
-
-            <SortableContext strategy={verticalListSortingStrategy} items={fields.map((f) => f.id)}>
-              <Canvas fields={fields} editField={editField} paragraphText={paragraphText} buttonText={buttonText} />
-            </SortableContext>
-
-            <DragOverlay dropAnimation={false}>
-              {activeSidebarField ? <SidebarField overlay field={activeSidebarField} /> : null}
-              {activeField ? <Field overlay field={activeField} /> : null}
-            </DragOverlay>
-          </DndContext>
-        </div>
-
-        {/* <BottomContent /> */}
-
-        <div>
-          {arrayFieldEdit.map((type, index) => {
-            return renderersEdit(type, setParagraphText, setButtonText, setMessage);
-          })}
-        </div>
-
-        <Routes>
-          <Route path="/consumer" element={<Consumer />} />
-        </Routes>
+        <button>
+          <a href="/consumer" target="_blank" rel="">
+            View
+          </a>
+        </button>
       </div>
-    </BrowserRouter>
+
+      <div className="content">
+        <DndContext onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd} autoScroll>
+          <Announcements />
+
+          <Sidebar fieldsRegKey={sidebarFieldsRegenKey} />
+
+          <SortableContext strategy={verticalListSortingStrategy} items={fields.map((f) => f.id)}>
+            <Canvas fields={fields} editField={editField} paragraphText={paragraphText} buttonText={buttonText} />
+          </SortableContext>
+
+          <DragOverlay dropAnimation={false}>
+            {activeSidebarField ? <SidebarField overlay field={activeSidebarField} /> : null}
+            {activeField ? <Field overlay field={activeField} /> : null}
+          </DragOverlay>
+        </DndContext>
+      </div>
+
+      {/* <BottomContent /> */}
+
+      <div>
+        {arrayFieldEdit.map((type, index) => {
+          return renderersEdit(type, setParagraphText, setButtonText, setMessage);
+        })}
+      </div>
+    </div>
   );
 }
