@@ -17,7 +17,7 @@ export const renderersEdit = (field, setParagraphText, setButtonText, setMessage
       return (
         <>
           Paragraph Text
-          <input type="text" onChange={(event) => setParagraphText(event.target.value)} />
+          <input id={field.id} type="text" name={field.name} onChange={(event) => setParagraphText(event.target.value)} />
         </>
       )
 
