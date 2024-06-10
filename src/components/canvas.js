@@ -2,7 +2,7 @@ import { useDroppable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 
-import { renderers, renderersView } from "./field";
+import { renderersView } from "./field";
 
 // function getRenderer(type, editField, paragraphText, buttonText) {
 //   // if (type === "spacer") {
@@ -25,42 +25,34 @@ export function Field(props) {
     className += " overlay";
   }
 
-  return (
-    <div className={className}>
-      {renderersView(field, editField, paragraphText, buttonText)}
-    </div>
-  );
+  return <div className={className}>{renderersView(field, editField, paragraphText, buttonText)}</div>;
 }
 
 function SortableField(props) {
   const { id, index, field, editField, paragraphText, buttonText } = props;
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition
-  } = useSortable({
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id,
     data: {
       index,
       id,
-      field
-    }
+      field,
+    },
   });
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition
+    transition,
   };
 
   const handleEdit = () => {
-    const newValue = prompt('Enter new value:');
+    const newValue = prompt("Enter new value:");
     editField(id, newValue);
   };
 
   return (
-    <div ref={setNodeRef} style={style}
+    <div
+      ref={setNodeRef}
+      style={style}
     // {...attributes} {...listeners}
     >
       <Field field={field} editField={editField} paragraphText={paragraphText} buttonText={buttonText} />
@@ -70,24 +62,18 @@ function SortableField(props) {
 
 export default function Canvas(props) {
   const { fields, editField, paragraphText, buttonText } = props;
-
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition
-  } = useDroppable({
+  //attributes, listeners,
+  const { setNodeRef, transform, transition } = useDroppable({
     id: "canvas_droppable",
     data: {
       parent: null,
-      isContainer: true
-    }
+      isContainer: true,
+    },
   });
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition
+    transition,
   };
 
   return (

@@ -199,14 +199,12 @@ export default function Admin(props: IAdminProps) {
           sx={{
             display: "flex",
             height: "80vh",
-            // background: "red",
           }}
         >
           <Box
             component="div"
             sx={{
               display: "flex",
-              // background: "green",
             }}
           >
             <Sidebar fieldsRegKey={sidebarFieldsRegenKey} />
@@ -217,7 +215,6 @@ export default function Admin(props: IAdminProps) {
             sx={{
               display: "flex",
               flexDirection: "column",
-              // background: "blue",
               flex: "1 1 0",
 
               ".canvas": {

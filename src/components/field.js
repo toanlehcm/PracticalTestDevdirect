@@ -15,25 +15,32 @@ export const renderersEdit = (field, setParagraphText, setButtonText, setMessage
   switch (field.type) {
     case "input":
       return (
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
           Paragraph Text
-          <input id={field.id} type="text" name={field.name} onChange={(event) => setParagraphText(event.target.value)} style={{ width: '300px', padding: '10px' }} />
+          <input
+            id={field.id}
+            type="text"
+            name={field.name}
+            onChange={(event) => {
+              setParagraphText(event.target.value)
+            }}
+            style={{ width: "300px", padding: "10px" }}
+          />
         </div>
       );
 
     case "button":
       return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <div style={{ display: "flex", flexDirection: "column" }}>
             Button Text
-            <input type="text" onChange={(event) => setButtonText(event.target.value)} style={{ width: '300px', padding: '10px' }} />
+            <input id={field.id} type="text" onChange={(event) => setButtonText(event.target.value)} style={{ width: "300px", padding: "10px" }} />
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', }}>
+          <div style={{ display: "flex", flexDirection: "column" }}>
             Alert message
-            <input type="text" onChange={(event) => setMessage(event.target.value)} style={{ width: '300px', padding: '10px' }} />
+            <input id={field.id} type="text" onChange={(event) => setMessage(event.target.value)} style={{ width: "300px", padding: "10px" }} />
           </div>
-
         </div>
       );
 
@@ -47,6 +54,7 @@ export const renderersView = (field, editField, paragraphText, buttonText) => {
     case "input":
       return (
         <button
+          id={field.id}
           onClick={() => {
             editField(field);
           }}
@@ -58,6 +66,7 @@ export const renderersView = (field, editField, paragraphText, buttonText) => {
     case "button":
       return (
         <button
+          id={field.id}
           onClick={() => {
             editField(field);
           }}
