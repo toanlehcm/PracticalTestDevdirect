@@ -1,26 +1,3 @@
-/* Reset some basic styles */
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: inherit;
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.25rem;
-  letter-spacing: 0;
-  text-transform: none;
-} */
-
-/* Style for the body element */
-/* body {
-  height: 100vh;
-  margin: 0;
-  font-family: "Your-Font-Family", sans-serif;
-  background-color: #f0f0f0; 
-  color: #333; 
-} */
-/* ----- */
-/* Styles for the layout */
 html,
 body {
   height: 100%;
