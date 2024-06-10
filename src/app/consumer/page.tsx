@@ -1,4 +1,5 @@
 "use client";
+import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 export default function Consumer(props: any) {
@@ -14,7 +15,17 @@ export default function Consumer(props: any) {
   }, []);
 
   return (
-    <div>
+    <Box
+      component="div"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 2,
+        gap: 2,
+      }}
+    >
       {arrayFieldsConsumer.map((item, index) => {
         switch (item.type) {
           case "input":
@@ -31,6 +42,6 @@ export default function Consumer(props: any) {
             return <></>;
         }
       })}
-    </div>
+    </Box>
   );
 }
